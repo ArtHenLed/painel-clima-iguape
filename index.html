@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1152, height=768">
+  <title>Previsão do Tempo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+    h1 {
+      margin: 10px 0;
+    }
+    .city {
+      margin-bottom: 20px;
+    }
+    .forecast {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .day {
+      background: #111;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      width: 140px;
+    }
+    .day img {
+      width: 60px;
+      height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Previsão do Tempo - 7 Dias</h1>
+
+  <div class="city" id="Cananeia"><h2>Cananéia</h2><div class="forecast" id="forecast-Cananeia"></div></div>
+  <div class="city" id="Iguape"><h2>Iguape</h2><div class="forecast" id="forecast-Iguape"></div></div>
+  <div class="city" id="IlhaComprida"><h2>Ilha Comprida</h2><div class="forecast" id="forecast-IlhaComprida"></div></div>
+
+  <script>
+    const apiKey = '202d7ad89371a4bdd22b4c03aafd1719';
+    const cities = [
+      { name: 'Cananeia', lat: -25.0144, lon: -47.9297 },
+      { name: 'Iguape', lat: -24.7062, lon: -47.5537 },
+      { name: 'IlhaComprida', lat: -24.7305, lon: -47.5372 }
+    ];
+
+    async function getForecast(city) {
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lon}&exclude=current,minutely,hourly,alerts&units=metric&lang=pt_br&appid=${apiKey}`);
+      const data = await res.json();
+
+      const container = document.getElementById(`forecast-${city.name.replace(/\\s/g, '')}`);
+      data.daily.slice(0, 7).forEach(day => {
+        const date = new Date(day.dt * 1000);
+        const options = { weekday: 'short', day: '2-digit', month: '2-digit' };
+        const dayElem = document.createElement('div');
+        dayElem.className = 'day';
+        dayElem.innerHTML = `
+          <div><strong>${date.toLocaleDateString('pt-BR', options)}</strong></div>
+          <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png" alt="">
+          <div>${Math.round(day.temp.max)}°C / ${Math.round(day.temp.min)}°C</div>
+          <div style="font-size: 0.8em;">${day.weather[0].description}</div>
+        `;
+        container.appendChild(dayElem);
+      });
+    }
+
+    cities.forEach(getForecast);
+  </script>
+</body>
+</html>
