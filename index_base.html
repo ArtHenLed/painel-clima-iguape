@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=576, height=384">
+    <title>Previsão do Tempo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 576px;
+            height: 384px;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: black;
+        }
+
+        .background {
+            position: absolute;
+            width: 576px;
+            height: 384px;
+            top: 0; left: 0;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 576px;
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 12px;
+        }
+        .titulo {
+            color: #000;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px #fff, 0 0 8px #fff;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto;
+            height: 120px; /* AUMENTADO para 120px */
+            margin-bottom: 10px;
+        }
+
+        .forecast {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 25px;
+            padding: 0 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .day-card {
+            background-color: rgba(255,255,255,0.85);
+            padding: 10px;
+            border-radius: 14px;
+            text-align: center;
+            width: 90px;
+            box-shadow: 0 0 6px rgba(0,0,0,0.18);
+        }
+        .day-card h2 {
+            color: #222;
+            font-size: 14px;
+            margin: 0 0 6px 0;
+        }
+        .day-card img {
+            height: 42px;
+            margin-bottom: 7px;
+        }
+        .day-card .temp {
+            color: #222;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <img class="background" src="ilha_comprida_bg_cortada.jpg" alt="Fundo Ilha Comprida" />
+    <div class="container">
+        <div class="header">
+            <div class="titulo">Ilha Comprida</div>
+            <img src="marcadagua.jpg" alt="Logo" class="logo" />
+        </div>
+        <div class="forecast">
+            {{PREVISAO_TEMPO}}
+        </div>
+    </div>
+</body>
+</html>
